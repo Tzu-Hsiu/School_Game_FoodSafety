@@ -1,0 +1,515 @@
+/* ================================================================
+   spotgame.css — "Spot the Hazard" game styles (Image Hub)
+   All classes scoped to .sp-* prefix.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   1. SECTION WRAPPER & OUTER CARD
+   ---------------------------------------------------------------- */
+.sp-section {
+  border-top: 1px solid var(--color-border);
+}
+
+.sp-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;   /* needed for overlay children */
+}
+
+/* ----------------------------------------------------------------
+   2. TOP HUD BAR
+   ---------------------------------------------------------------- */
+.sp-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sp-hud__scene {
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.sp-hud__found {
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  color: var(--color-text-primary);
+}
+
+.sp-hud__found strong {
+  font-size: 1rem;
+  color: var(--color-neon-green);
+  text-shadow: var(--shadow-neon-green);
+}
+
+.sp-hud__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sp-misses {
+  font-family: var(--font-accent);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.sp-misses.has-misses { color: var(--color-warning); }
+
+/* ----------------------------------------------------------------
+   3. SCENE BODY & HEADER
+   ---------------------------------------------------------------- */
+.sp-body {
+  padding: 24px 20px;
+  position: relative; /* for overlay child */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sp-scene-header {
+  /* margin-bottom: 20px; removed, handled by row gap */
+}
+
+.sp-scene-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.sp-scene-num {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: 2px 9px;
+  border-radius: 4px;
+}
+
+.sp-scene-emoji { font-size: 1.3rem; line-height: 1; }
+
+.sp-scene-title {
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.sp-scene-subtitle {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+}
+
+.sp-scene-context {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-top: 6px;
+  max-width: 600px;
+}
+
+/* ----------------------------------------------------------------
+   4. IMAGE CONTAINER & HOTSPOTS
+   ---------------------------------------------------------------- */
+.sp-image-container {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+  cursor: crosshair;
+  background: #000;
+}
+
+.sp-main-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.sp-hotspots {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; /* Let clicks pass through if we don't handle them precisely */
+}
+
+/* Make hotspots clickable */
+.sp-hotspot {
+  position: absolute;
+  pointer-events: auto;
+  border-radius: 50%;
+  border: 3px solid transparent; /* invisible by default */
+  background: rgba(255, 0, 0, 0.0); /* invisible */
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* Hover hint (optional, usually disabled for this type of game to make it harder) */
+/* .sp-hotspot:not(.is-found):hover {
+  background: rgba(255, 255, 255, 0.1);
+} */
+
+/* Found state */
+.sp-hotspot.is-found {
+  border-color: var(--color-alert-red);
+  background: rgba(255, 45, 45, 0.25);
+  box-shadow: 0 0 15px rgba(255, 45, 45, 0.5);
+  animation: pulse-ring 2s infinite;
+  cursor: default;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(255, 45, 45, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 45, 45, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 45, 45, 0); }
+}
+
+/* Miss Feedback Animations */
+.sp-miss-feedbacks {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+
+.sp-miss-cross {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  color: var(--color-warning);
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  font-family: sans-serif;
+  pointer-events: none;
+  animation: miss-pop 0.8s forwards;
+}
+.sp-miss-cross::before { content: "✕"; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+@keyframes miss-pop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+  80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}
+
+
+/* ----------------------------------------------------------------
+   5. EXPLANATION PANEL
+   ---------------------------------------------------------------- */
+.sp-explanation-panel {
+  min-height: 120px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-exp-placeholder, .sp-exp-miss {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+}
+.sp-exp-miss { color: var(--color-warning); }
+
+.sp-exp-card {
+  width: 100%;
+}
+
+.sp-exp-card.slide-up {
+  animation: slide-up-fade 0.3s ease;
+}
+
+@keyframes slide-up-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sp-exp-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.sp-badge {
+  display: inline-block;
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--color-alert-red);
+  color: #fff;
+}
+
+.sp-exp-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.sp-exp-detail {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.sp-verdict {
+  font-weight: 900;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: var(--color-alert-red);
+}
+
+.sp-explain {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.sp-explain strong { color: var(--color-text-primary); }
+
+
+/* ----------------------------------------------------------------
+   10. SCENE-COMPLETE OVERLAY
+   ---------------------------------------------------------------- */
+.sp-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 13, 13, 0.93);
+  border-radius: var(--radius-md);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 18px;
+  padding: 40px 28px;
+  z-index: 20;
+  animation: screen-fade-in 0.3s ease;
+}
+
+.sp-overlay.is-visible { display: flex; }
+
+.sp-overlay__emoji { font-size: 3.8rem; line-height: 1; }
+
+.sp-overlay__title {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.sp-overlay__title .ol-sub {
+  display: block;
+  font-family: var(--font-accent);
+  font-size: 0.38em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+.sp-overlay__stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sp-stat {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  text-align: center;
+}
+
+.sp-stat__num {
+  font-family: var(--font-accent);
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.sp-stat__num.green { color: var(--color-neon-green); text-shadow: var(--shadow-neon-green); }
+.sp-stat__num.red   { color: var(--color-alert-red);  }
+
+.sp-stat__label {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-family: var(--font-accent);
+  margin-top: 3px;
+}
+
+.sp-overlay__tip {
+  font-size: 0.83rem;
+  color: var(--color-text-muted);
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+.sp-overlay__tip strong { color: var(--color-text-primary); }
+
+.sp-overlay__btn {
+  font-family: var(--font-accent);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #000;
+  background: var(--color-neon-green);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 32px;
+  cursor: pointer;
+  box-shadow: var(--shadow-neon-green);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.sp-overlay__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px rgba(57, 255, 20, 0.55);
+}
+
+/* ----------------------------------------------------------------
+   11. FINAL RESULTS SCREEN  (replaces scene body on last completion)
+   ---------------------------------------------------------------- */
+.sp-final {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  padding: 48px 24px;
+  animation: screen-fade-in 0.35s ease;
+}
+
+.sp-final.is-visible { display: flex; }
+
+.sp-final__grade { font-size: 4rem; line-height: 1; }
+
+.sp-final__title {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.sp-final__title .ft-sub {
+  display: block;
+  font-family: var(--font-accent);
+  font-size: 0.38em;
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.sp-final__row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sp-final__breakdown {
+  width: 100%;
+  max-width: 400px;
+}
+
+.sp-bd-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.85rem;
+}
+
+.sp-bd-row:last-child { border-bottom: none; }
+
+.sp-bd-row__label { color: var(--color-text-muted); }
+.sp-bd-row__val   { font-weight: 700; font-family: var(--font-accent); }
+.sp-bd-row__val.green { color: var(--color-neon-green); }
+.sp-bd-row__val.red   { color: var(--color-alert-red);  }
+
+.sp-final__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sp-final__retry {
+  font-family: var(--font-accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #000;
+  background: var(--color-neon-green);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 28px;
+  cursor: pointer;
+  box-shadow: var(--shadow-neon-green);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.sp-final__retry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 26px rgba(57, 255, 20, 0.5);
+}
+
+.sp-final__next {
+  font-family: var(--font-accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px 28px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+  display: inline-block;
+}
+
+.sp-final__next:hover {
+  border-color: var(--color-info-blue);
+  background: rgba(0, 200, 255, 0.06);
+  color: var(--color-text-primary);
+}
+
+/* ----------------------------------------------------------------
+   12. RESPONSIVE TWEAKS
+   ---------------------------------------------------------------- */
+@media (max-width: 520px) {
+  .sp-body     { padding: 18px 14px; gap: 14px; }
+  .sp-hud      { padding: 10px 14px; }
+  .sp-icons    { font-size: 1.5rem; }
+  .sp-overlay  { padding: 28px 16px; }
+}

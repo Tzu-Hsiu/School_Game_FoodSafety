@@ -1,0 +1,648 @@
+/* ================================================================
+   style.css — Food Safety Guide: Page Styles
+   Covers: design tokens, reset, layout, nav, hero, microbes,
+           simulator, myths, cta, footer, and shared utilities.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   1. CSS CUSTOM PROPERTIES (Design System)
+   ---------------------------------------------------------------- */
+:root {
+  /* Surface colours */
+  --color-bg:           #0d0d0d;
+  --color-surface:      #1a1a1a;
+  --color-surface-2:    #242424;
+  --color-border:       #2e2e2e;
+
+  /* Accent palette */
+  --color-neon-green:   #39ff14;
+  --color-alert-red:    #ff2d2d;
+  --color-warning:      #ffb800;
+  --color-info-blue:    #00c8ff;
+  --color-purple:       #b44fff;
+
+  /* Text */
+  --color-text-primary: #f0f0f0;
+  --color-text-muted:   #888888;
+
+  /* Typography */
+  --font-main:   'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  --font-accent: 'Space Grotesk', sans-serif;
+
+  /* Shape */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  /* Extended accent palette (new pathogens) */
+  --color-coral:  #ff6535;   /* Vibrio parahaemolyticus — ocean danger orange */
+  --color-teal:   #00d4a8;   /* Staphylococcus aureus — golden-green teal     */
+  /* --color-purple already defined above */
+
+  /* Glow shadows */
+  --shadow-neon-green: 0 0 20px rgba(57, 255, 20, 0.35);
+  --shadow-alert-red:  0 0 20px rgba(255, 45, 45, 0.35);
+  --shadow-warning:    0 0 20px rgba(255, 184, 0, 0.35);
+}
+
+/* ----------------------------------------------------------------
+   2. RESET & BASE
+   ---------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  line-height: 1.7;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a   { color: var(--color-info-blue); text-decoration: none; }
+
+/* ----------------------------------------------------------------
+   3. UTILITY CLASSES
+   ---------------------------------------------------------------- */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Tags / badges */
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--font-accent);
+}
+.tag--red    { background: var(--color-alert-red);  color: #fff; }
+.tag--green  { background: var(--color-neon-green); color: #000; }
+.tag--yellow { background: var(--color-warning);    color: #000; }
+.tag--blue   { background: var(--color-info-blue);  color: #000; }
+.tag--purple { background: var(--color-purple);     color: #fff; }
+.tag--coral  { background: var(--color-coral);      color: #fff; }
+.tag--teal   { background: var(--color-teal);       color: #000; }
+
+/* Section eyebrow */
+.section-label {
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+/* Inline colour helpers */
+.highlight-red    { color: var(--color-alert-red);   }
+.highlight-green  { color: var(--color-neon-green);  }
+.highlight-yellow { color: var(--color-warning);     }
+.highlight-blue   { color: var(--color-info-blue);   }
+
+/* Image placeholder */
+.img-placeholder {
+  background: var(--color-surface-2);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 12px;
+}
+.img-placeholder--card { width: 100%; height: 110px; margin-bottom: 16px; }
+.img-placeholder--wide { width: 100%; height: 180px; margin-bottom: 20px; }
+.img-placeholder__icon { font-size: 1.8rem; opacity: 0.4; }
+
+/* Pill row */
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.pill {
+  font-size: 0.75rem;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 4px 12px;
+  color: var(--color-text-muted);
+}
+
+/* Callout box */
+.callout {
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  margin-top: 20px;
+}
+.callout--red    { background: rgba(255,45,45,0.08);  border: 1px solid rgba(255,45,45,0.25);  }
+.callout--yellow { background: rgba(255,184,0,0.08);  border: 1px solid rgba(255,184,0,0.25);  }
+.callout--blue   { background: rgba(0,200,255,0.08);  border: 1px solid rgba(0,200,255,0.25);  }
+.callout--green  { background: rgba(57,255,20,0.06);  border: 1px solid rgba(57,255,20,0.2);   }
+.callout__title { font-weight: 900; font-size: 0.85rem; margin-bottom: 6px; }
+.callout--red    .callout__title { color: var(--color-alert-red);  }
+.callout--yellow .callout__title { color: var(--color-warning);    }
+.callout--blue   .callout__title { color: var(--color-info-blue);  }
+.callout--green  .callout__title { color: var(--color-neon-green); }
+
+/* Science tip box */
+.science-box {
+  background: var(--color-surface-2);
+  border-left: 3px solid var(--color-info-blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 10px 14px;
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+.science-box strong { color: var(--color-info-blue); }
+
+/* Divider */
+.divider { height: 1px; background: var(--color-border); margin: 28px 0; }
+
+/* Slide-down animation (shared) */
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ----------------------------------------------------------------
+   4. NAVIGATION
+   ---------------------------------------------------------------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 13, 13, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 20px;
+}
+.nav__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.nav__logo {
+  font-family: var(--font-accent);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-neon-green);
+  text-shadow: var(--shadow-neon-green);
+  white-space: nowrap;
+}
+.nav__links { display: flex; gap: 6px; flex-wrap: wrap; }
+.nav__links a {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+.nav__links a:hover,
+.nav__links a.is-active {
+  color: var(--color-neon-green);
+  border-color: var(--color-neon-green);
+  background: rgba(57, 255, 20, 0.08);
+}
+
+/* ----------------------------------------------------------------
+   5. HERO — Section 1
+   ---------------------------------------------------------------- */
+.hero {
+  padding: 60px 20px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(255,45,45,0.18) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulse-bg 4s ease-in-out infinite alternate;
+}
+@keyframes pulse-bg {
+  from { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  to   { opacity: 1;   transform: translateX(-50%) scale(1.1); }
+}
+.hero__eyebrow {
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-warning);
+  margin-bottom: 16px;
+}
+.hero__title {
+  font-size: clamp(2.2rem, 8vw, 4rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.hero__title .bite {
+  color: var(--color-neon-green);
+  text-shadow: var(--shadow-neon-green);
+  display: block;
+  font-family: var(--font-accent);
+}
+.hero__subtitle {
+  font-size: clamp(1rem, 3.5vw, 1.4rem);
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 32px;
+}
+
+/* Breaking news banner */
+.breaking-news {
+  background: var(--color-alert-red);
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  text-align: left;
+  margin: 0 auto;
+  max-width: 660px;
+}
+.breaking-news__label {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: #fff;
+  color: var(--color-alert-red);
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.breaking-news p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+.breaking-news p:last-child { margin-bottom: 0; }
+
+.hero__scroll-hint {
+  margin-top: 36px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+/* ----------------------------------------------------------------
+   6. SHARED SECTION WRAPPER
+   ---------------------------------------------------------------- */
+.section { padding: 60px 0; }
+.section + .section { border-top: 1px solid var(--color-border); }
+.section__header { margin-bottom: 36px; }
+.section__title {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 900;
+  line-height: 1.25;
+}
+.section__title span {
+  font-size: 0.6em;
+  color: var(--color-text-muted);
+}
+.section__desc {
+  margin-top: 10px;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  max-width: 580px;
+}
+
+/* ----------------------------------------------------------------
+   7. MICROBE MENU — Section 2
+   ---------------------------------------------------------------- */
+.microbe-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .microbe-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.microbe-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.microbe-card:hover { transform: translateY(-4px); }
+.microbe-card--norovirus  { border-top: 3px solid var(--color-info-blue); }
+.microbe-card--bongkrekic { border-top: 3px solid var(--color-alert-red); }
+.microbe-card--bacillus   { border-top: 3px solid var(--color-warning);   }
+.microbe-card--vibrio     { border-top: 3px solid var(--color-coral);     }
+.microbe-card--salmonella { border-top: 3px solid var(--color-purple);    }
+.microbe-card--staph      { border-top: 3px solid var(--color-teal);      }
+
+.microbe-card--norovirus:hover  { box-shadow: 0 8px 30px rgba(0,200,255,0.18);  }
+.microbe-card--bongkrekic:hover { box-shadow: 0 8px 30px rgba(255,45,45,0.18);  }
+.microbe-card--bacillus:hover   { box-shadow: 0 8px 30px rgba(255,184,0,0.18);  }
+.microbe-card--vibrio:hover     { box-shadow: 0 8px 30px rgba(255,101,53,0.18); }
+.microbe-card--salmonella:hover { box-shadow: 0 8px 30px rgba(180,79,255,0.18); }
+.microbe-card--staph:hover      { box-shadow: 0 8px 30px rgba(0,212,168,0.18);  }
+
+.microbe-card__name {
+  font-size: 1.05rem;
+  font-weight: 900;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+.microbe-card__name-zh { font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 12px; }
+.microbe-card__threat  { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 10px; }
+
+.microbe-card__fact-list { list-style: none; margin-top: 12px; }
+.microbe-card__fact-list li {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.microbe-card__fact-list li:last-child { border-bottom: none; }
+.microbe-card__fact-list li::before { content: '▸'; flex-shrink: 0; color: var(--color-text-muted); margin-top: 1px; }
+
+.danger-meter { margin-top: 14px; font-size: 0.72rem; color: var(--color-text-muted); letter-spacing: 0.05em; }
+.danger-meter__bar {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-border);
+  margin-top: 5px;
+  overflow: hidden;
+}
+.danger-meter__fill { height: 100%; border-radius: 999px; transition: width 1s ease; }
+
+/* ----------------------------------------------------------------
+   8. SURVIVAL SIMULATOR — Section 3
+   ---------------------------------------------------------------- */
+.scenario-list { display: flex; flex-direction: column; gap: 28px; }
+
+.scenario-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.scenario-card__header {
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.scenario-card__num {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+.scenario-card__title   { font-size: 1.05rem; font-weight: 900; margin-bottom: 4px; }
+.scenario-card__context { font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.6; }
+.scenario-card__question {
+  padding: 18px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-warning);
+  border-bottom: 1px solid var(--color-border);
+}
+.scenario-card__options { display: grid; grid-template-columns: 1fr 1fr; }
+
+@media (max-width: 520px) {
+  .scenario-card__options { grid-template-columns: 1fr; }
+  .scenario-card__header  { padding: 18px 16px 14px; }
+  .scenario-card__question { padding: 14px 16px; }
+}
+
+.option-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+  text-align: left;
+  color: var(--color-text-primary);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  transition: background 0.15s;
+}
+.option-btn:first-child { border-right: 1px solid var(--color-border); }
+@media (max-width: 520px) {
+  .option-btn:first-child { border-right: none; border-bottom: 1px solid var(--color-border); }
+  .option-btn { padding: 16px; }
+}
+.option-btn:hover:not(:disabled) { background: var(--color-surface-2); }
+.option-btn__label {
+  display: inline-block;
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.option-btn__text { display: block; }
+
+/* Option states after answering */
+.option-btn.is-correct { background: rgba(57, 255, 20, 0.1); }
+.option-btn.is-correct .option-btn__label {
+  background: var(--color-neon-green);
+  color: #000;
+  border-color: var(--color-neon-green);
+}
+.option-btn.is-wrong { background: rgba(255, 45, 45, 0.08); }
+.option-btn.is-wrong .option-btn__label {
+  background: var(--color-alert-red);
+  color: #fff;
+  border-color: var(--color-alert-red);
+}
+.option-btn:disabled { cursor: default; }
+
+/* Consequence panels */
+.consequence {
+  display: none;
+  padding: 16px 24px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  border-top: 1px solid var(--color-border);
+  animation: slide-down 0.3s ease;
+}
+.consequence.is-visible { display: block; }
+.consequence--correct {
+  background: rgba(57, 255, 20, 0.06);
+  border-left: 3px solid var(--color-neon-green);
+}
+.consequence--wrong {
+  background: rgba(255, 45, 45, 0.06);
+  border-left: 3px solid var(--color-alert-red);
+}
+.consequence__verdict { font-size: 1rem; font-weight: 900; margin-bottom: 6px; }
+.consequence--correct .consequence__verdict { color: var(--color-neon-green); }
+.consequence--wrong   .consequence__verdict { color: var(--color-alert-red);  }
+
+/* Score tracker */
+.score-tracker {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.score-tracker__label { font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 10px; }
+.score-tracker__num {
+  font-family: var(--font-accent);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--color-neon-green);
+  text-shadow: var(--shadow-neon-green);
+}
+.score-tracker__total { font-size: 1rem; color: var(--color-text-muted); }
+.score-tracker__verdict {
+  margin-top: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  min-height: 22px;
+  transition: all 0.3s;
+}
+
+/* ----------------------------------------------------------------
+   9. MYTHBUSTERS — Section 4
+   ---------------------------------------------------------------- */
+.myth-list { display: flex; flex-direction: column; gap: 16px; }
+
+.myth-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.myth-card__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.myth-card__header:hover { background: var(--color-surface-2); }
+.myth-card__icon   { font-size: 1.5rem; flex-shrink: 0; }
+.myth-card__claim  { flex: 1; }
+.myth-card__claim-label { font-size: 0.7rem; color: var(--color-text-muted); margin-bottom: 2px; }
+.myth-card__claim-text  { font-size: 0.95rem; font-weight: 700; }
+.myth-card__chevron {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.myth-card.is-open .myth-card__chevron { transform: rotate(180deg); }
+
+.myth-card__bust { display: none; padding: 0 20px 18px; animation: slide-down 0.25s ease; }
+.myth-card.is-open .myth-card__bust { display: block; }
+.myth-card__bust-verdict {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-alert-red);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.myth-card__bust-text { font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.65; }
+.myth-card__bust-text strong { color: var(--color-text-primary); }
+
+/* ----------------------------------------------------------------
+   10. SURVIVAL KIT CTA — Section 5
+   ---------------------------------------------------------------- */
+.cta-section {
+  padding: 60px 20px;
+  text-align: center;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+.cta-section__title  { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 900; margin-bottom: 12px; }
+.cta-section__title span { font-size: 0.6em; color: var(--color-text-muted); }
+.cta-section__desc {
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.65;
+}
+
+.checklist { display: inline-flex; flex-direction: column; gap: 10px; text-align: left; margin-bottom: 32px; }
+.checklist-item { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; }
+.checklist-item__check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--color-neon-green);
+  color: #000;
+  font-size: 0.65rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-weight: 900;
+  margin-top: 2px;
+}
+
+/* ----------------------------------------------------------------
+   11. FOOTER
+   ---------------------------------------------------------------- */
+footer {
+  padding: 24px 20px;
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+footer strong { color: var(--color-text-primary); }
+
+/* ----------------------------------------------------------------
+   12. RESPONSIVE TWEAKS
+   ---------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .hero    { padding: 40px 20px 36px; }
+  .section { padding: 44px 0; }
+  .score-tracker { padding: 16px; }
+}
