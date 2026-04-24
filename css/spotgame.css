@@ -513,3 +513,192 @@
   .sp-icons    { font-size: 1.5rem; }
   .sp-overlay  { padding: 28px 16px; }
 }
+
+/* ----------------------------------------------------------------
+   13. NEW UI MODULES (Menu, Combo, Hint, Animations)
+   ---------------------------------------------------------------- */
+
+/* Main Menu */
+.sp-menu {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.sp-menu-header {
+  margin-bottom: 30px;
+}
+
+.sp-player-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.sp-level-badge {
+  background: var(--color-purple);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 900;
+  font-family: var(--font-accent);
+}
+
+.sp-xp-bar {
+  width: 150px;
+  height: 10px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.sp-xp-fill {
+  height: 100%;
+  background: var(--color-neon-green);
+  transition: width 0.5s ease;
+}
+
+.sp-mode-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sp-mode-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.sp-mode-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-neon-green);
+}
+
+.sp-mode-card p {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  flex-grow: 1;
+}
+
+.sp-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.sp-btn:hover {
+  opacity: 0.8;
+}
+
+.sp-btn-primary { background: var(--color-neon-green); color: #000; }
+.sp-btn-warning { background: var(--color-warning); color: #000; }
+.sp-btn-purple { background: var(--color-purple); color: #fff; }
+
+/* HUD Extras */
+.sp-hud__left, .sp-hud__center, .sp-hud__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sp-hud__timer {
+  font-family: var(--font-accent);
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.sp-hud__timer.danger {
+  color: var(--color-alert-red);
+  animation: pulse-danger 1s infinite;
+}
+
+@keyframes pulse-danger {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.sp-combo {
+  font-family: var(--font-accent);
+  color: var(--color-warning);
+  font-weight: 900;
+  transition: opacity 0.3s;
+}
+
+.sp-combo.pop {
+  animation: combo-pop 0.3s ease-out;
+}
+
+@keyframes combo-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.sp-btn-hint {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-border);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.sp-btn-hint:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Hint Animation */
+.sp-hint-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+
+.sp-hint-circle {
+  position: absolute;
+  border: 2px dashed var(--color-warning);
+  border-radius: 50%;
+  animation: hint-pulse 2s ease-out;
+  opacity: 0;
+}
+
+@keyframes hint-pulse {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+/* Shake Animation for Misses */
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.sp-realcase, .sp-tip {
+  font-size: 0.8rem;
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+}
