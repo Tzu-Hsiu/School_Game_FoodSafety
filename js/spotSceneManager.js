@@ -9,18 +9,18 @@ window.spotSceneManager = {
   
   // Prepare a sequence of scenes based on the game mode
   prepareQueue(mode) {
-    const allScenes = window.SPOT_SCENES;
+    const allScenes = window.SPOT_SCENES || [];
     this.queue = [];
 
     if (mode === 'classic') {
-      // Classic: 3 random scenes from different categories
+      // Classic: play through every scene in a random order.
       const shuffled = [...allScenes].sort(() => 0.5 - Math.random());
-      this.queue = shuffled.slice(0, 3);
+      this.queue = shuffled;
     } 
     else if (mode === 'challenge') {
-      // Challenge: 5 random scenes, mixed difficulties
+      // Challenge: every scene with timers applied per scene.
       const shuffled = [...allScenes].sort(() => 0.5 - Math.random());
-      this.queue = shuffled.slice(0, 5);
+      this.queue = shuffled;
     }
     else if (mode === 'endless') {
       // Endless: Infinite queue (we just re-fill or pick randomly on the fly)
@@ -32,7 +32,7 @@ window.spotSceneManager = {
     const state = window.spotGameState.run;
     
     if (state.mode === 'endless') {
-      const allScenes = window.SPOT_SCENES;
+      const allScenes = window.SPOT_SCENES || [];
       const randomScene = allScenes[Math.floor(Math.random() * allScenes.length)];
       return this._prepareSceneData(randomScene);
     }
