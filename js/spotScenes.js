@@ -222,7 +222,7 @@ const SPOT_SCENES = [
         hazardCount: 3,
         hotspots: [
           {
-            id: 401, x: 11, y: 68, r: 12,
+            id: 401, x: 15, y: 70, r: 15,
             badge: '⚠️ 門邊放鮮奶', name: '冰箱門邊',
             detail: '鮮奶放在溫度最不穩定的冰箱門邊',
             verdict: '⚠️ 溫度變化導致變質！',
@@ -232,7 +232,7 @@ const SPOT_SCENES = [
             tip: '鮮奶應放置在冰箱內部溫度穩定的冷藏層。'
           },
           {
-            id: 402, x: 56, y: 25, r: 14,
+            id: 402, x: 70, y: 20, r: 15,
             badge: '⚠️ 生肉放上層', name: '冷藏上層',
             detail: '解凍中的生肉放在最上層，且無深盤盛裝',
             verdict: '⚠️ 血水滴落風險！',
@@ -242,7 +242,7 @@ const SPOT_SCENES = [
             tip: '解凍生肉應放在最底層，並用深盤或保鮮盒盛裝。'
           },
           {
-            id: 403, x: 53, y: 43, r: 15,
+            id: 403, x: 45, y: 50, r: 15,
             badge: '⚠️ 熟食未加蓋', name: '冷藏中層',
             detail: '昨天的剩菜連盤子直接放進冰箱，無保鮮膜',
             verdict: '⚠️ 異味與污染！',
@@ -275,7 +275,7 @@ const SPOT_SCENES = [
         hazardCount: 3,
         hotspots: [
           {
-            id: 501, x: 32, y: 54, r: 18,
+            id: 501, x: 25, y: 30, r: 18,
             badge: '⚠️ 冷盤開放', name: '沙拉冷盤區',
             detail: '生菜與冷盤長時間開放陳列，且多人取餐靠近',
             verdict: '⚠️ 開放陳列風險！',
@@ -285,7 +285,7 @@ const SPOT_SCENES = [
             tip: '冷盤應保持低溫、縮短開放時間，並設置足夠遮蔽與專用夾具。'
           },
           {
-            id: 502, x: 60, y: 71, r: 12,
+            id: 502, x: 20, y: 68, r: 15,
             badge: '⚠️ 夾子掉入食物', name: '熱食區',
             detail: '公用夾子的握柄整個掉進菜餚裡',
             verdict: '⚠️ 手部細菌轉移！',
@@ -295,7 +295,7 @@ const SPOT_SCENES = [
             tip: '夾子應有專屬放置處，若掉入食物中應請服務生更換整盤菜與夾子。'
           },
           {
-            id: 503, x: 85, y: 82, r: 12,
+            id: 503, x: 75, y: 75, r: 15,
             badge: '⚠️ 溫水泡冰勺', name: '冰淇淋區',
             detail: '挖冰淇淋的勺子泡在混濁且非流動的水中',
             verdict: '⚠️ 細菌培養皿！',
@@ -328,7 +328,7 @@ const SPOT_SCENES = [
         hazardCount: 3,
         hotspots: [
           {
-            id: 601, x: 19, y: 31, r: 18,
+            id: 601, x: 65, y: 33, r: 18,
             badge: '⚠️ 超出保存線', name: '冷藏櫃',
             detail: '商品堆疊過高，超過了冷藏櫃內部的紅色安全線(Load Line)',
             verdict: '⚠️ 冷卻不足！',
@@ -338,7 +338,7 @@ const SPOT_SCENES = [
             tip: '選購時盡量拿取安全線以下或較內側的商品。'
           },
           {
-            id: 602, x: 54, y: 73, r: 17,
+            id: 602, x: 25, y: 75, r: 17,
             badge: '⚠️ 購物車順序', name: '顧客推車',
             detail: '推車裡先放了冷凍水餃和鮮奶，才準備去逛日用品區',
             verdict: '⚠️ 冷鍊中斷！',
@@ -348,7 +348,7 @@ const SPOT_SCENES = [
             tip: '採買順序：乾貨日用品 → 蔬菜水果 → 魚肉類生鮮 → 冷凍食品。'
           },
           {
-            id: 603, x: 86, y: 40, r: 12,
+            id: 603, x: 65, y: 55, r: 15,
             badge: '⚠️ 包裝破損', name: '真空包裝肉品',
             detail: '真空包裝已經膨脹變形',
             verdict: '⚠️ 微生物發酵！',
@@ -381,7 +381,7 @@ const SPOT_SCENES = [
         hazardCount: 3,
         hotspots: [
           {
-            id: 701, x: 43, y: 58, r: 16,
+            id: 701, x: 66, y: 60, r: 16,
             badge: '⚠️ 刷醬混用', name: '醬料區',
             detail: '同一支刷子刷生肉，又直接刷快烤好的熟肉',
             verdict: '⚠️ 交叉污染！',
@@ -391,7 +391,7 @@ const SPOT_SCENES = [
             tip: '生肉與熟食應使用不同的刷子與醬料盆。'
           },
           {
-            id: 702, x: 26, y: 74, r: 11,
+            id: 702, x: 32, y: 81, r: 15,
             badge: '⚠️ 雞肉帶血', name: '烤架上',
             detail: '烤雞肉串表面微焦，但骨邊肉仍帶有明顯血水',
             verdict: '⚠️ 未徹底加熱！',
@@ -401,7 +401,7 @@ const SPOT_SCENES = [
             tip: '食用帶骨雞肉前先檢查骨邊是否無血水。'
           },
           {
-            id: 703, x: 76, y: 45, r: 19,
+            id: 703, x: 48, y: 55, r: 15,
             badge: '⚠️ 滴血水', name: '生食陳列區',
             detail: '上層擺放生肉串的盤子，血水滴到下方的蔬菜串上',
             verdict: '⚠️ 交叉污染！',
@@ -434,7 +434,7 @@ const SPOT_SCENES = [
         hazardCount: 3,
         hotspots: [
           {
-            id: 801, x: 54, y: 46, r: 16,
+            id: 801, x: 35, y: 60, r: 16,
             badge: '⚠️ 保溫箱不熱', name: '熱狗機/包子機',
             detail: '保溫箱溫度顯示只有40度',
             verdict: '⚠️ 危險溫度帶！',
@@ -444,7 +444,7 @@ const SPOT_SCENES = [
             tip: '購買熱食時留意保溫設備是否有足夠溫度。'
           },
           {
-            id: 802, x: 25, y: 73, r: 18,
+            id: 802, x: 75, y: 55, r: 18,
             badge: '⚠️ 標示不清', name: '散裝餅乾區',
             detail: '分裝的餅乾袋上沒有任何有效期限和成分標示',
             verdict: '⚠️ 資訊不明！',
@@ -454,7 +454,7 @@ const SPOT_SCENES = [
             tip: '拒絕購買無標示、來路不明的散裝食品。'
           },
           {
-            id: 803, x: 83, y: 61, r: 18,
+            id: 803, x: 80, y: 85, r: 15,
             badge: '⚠️ 陽光直射', name: '飲料區',
             detail: '寶特瓶飲料長時間被窗外的陽光直射',
             verdict: '⚠️ 變質風險！',
@@ -487,7 +487,7 @@ const SPOT_SCENES = [
         hazardCount: 3,
         hotspots: [
           {
-            id: 901, x: 20, y: 75, r: 15,
+            id: 901, x: 25, y: 68, r: 15,
             badge: '⚠️ 萬年菜瓜布', name: '洗碗槽',
             detail: '菜瓜布破爛發黑，且泡在積水的水槽邊',
             verdict: '⚠️ 細菌大本營！',
@@ -497,7 +497,7 @@ const SPOT_SCENES = [
             tip: '菜瓜布使用後應擰乾懸掛，且至少每個月更換一次。'
           },
           {
-            id: 902, x: 20, y: 36, r: 16,
+            id: 902, x: 20, y: 35, r: 16,
             badge: '⚠️ 木砧板發霉', name: '砧板架',
             detail: '木質砧板表面有深色發霉的刀痕',
             verdict: '⚠️ 黴菌毒素！',
@@ -507,7 +507,7 @@ const SPOT_SCENES = [
             tip: '木砧板用完須洗淨立起風乾，若有發霉黑斑應即刻汰換。'
           },
           {
-            id: 903, x: 64, y: 57, r: 20,
+            id: 903, x: 60, y: 50, r: 15,
             badge: '⚠️ 洗生肉水花', name: '水龍頭下',
             detail: '直接在水槽大水沖洗生雞肉，水花四濺到旁邊的乾淨碗盤',
             verdict: '⚠️ 擴散污染！',
@@ -540,7 +540,7 @@ const SPOT_SCENES = [
         hazardCount: 3,
         hotspots: [
           {
-            id: 1001, x: 18, y: 44, r: 17,
+            id: 1001, x: 75, y: 60, r: 15,
             badge: '⚠️ 熟食無蓋', name: '炸物保溫盤',
             detail: '炸雞腿和可樂餅完全開放放置，無任何遮蔽',
             verdict: '⚠️ 飛沫與灰塵污染！',
@@ -550,7 +550,7 @@ const SPOT_SCENES = [
             tip: '應選擇有加蓋或裝在盒子裡的熟食。'
           },
           {
-            id: 1002, x: 78, y: 37, r: 16,
+            id: 1002, x: 70, y: 72, r: 12,
             badge: '⚠️ 夾子共用', name: '熟食夾具',
             detail: '用來夾生菜沙拉的夾子，被拿去夾旁邊的炸豬排',
             verdict: '⚠️ 交叉混味/污染！',
@@ -560,7 +560,7 @@ const SPOT_SCENES = [
             tip: '每種熟食都應該有獨立的夾具。'
           },
           {
-            id: 1003, x: 55, y: 63, r: 18,
+            id: 1003, x: 25, y: 60, r: 15,
             badge: '⚠️ 常溫放便當', name: '特價推車',
             detail: '打折的便當沒有放在保溫箱或冷藏櫃，直接放在走道的常溫推車上販售',
             verdict: '⚠️ 超時增菌風險！',
