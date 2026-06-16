@@ -11,11 +11,31 @@
 }
 
 .sp-wrap {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: rgba(26, 26, 26, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   overflow: hidden;
   position: relative;   /* needed for overlay children */
+}
+
+/* Subtle background glow for the container */
+.sp-wrap::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 50% 0%, rgba(57, 255, 20, 0.08), transparent 50%),
+              radial-gradient(circle at 50% 100%, rgba(0, 200, 255, 0.05), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure content stays above the glow */
+.sp-menu, .sp-body, .sp-hud, .sp-final {
+  position: relative;
+  z-index: 1;
 }
 
 /* ----------------------------------------------------------------
@@ -28,8 +48,10 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 12px 20px;
-  background: var(--color-surface-2);
-  border-bottom: 1px solid var(--color-border);
+  background: rgba(36, 36, 36, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .sp-hud__scene {
@@ -535,7 +557,8 @@
 }
 
 .sp-level-badge {
-  background: var(--color-purple);
+  background: linear-gradient(135deg, var(--color-purple), #ff00ff);
+  box-shadow: 0 0 12px rgba(180, 79, 255, 0.4);
   color: #fff;
   padding: 4px 12px;
   border-radius: 12px;
@@ -546,15 +569,17 @@
 .sp-xp-bar {
   width: 150px;
   height: 10px;
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
   border-radius: 5px;
   overflow: hidden;
 }
 
 .sp-xp-fill {
   height: 100%;
-  background: var(--color-neon-green);
+  background: linear-gradient(90deg, var(--color-teal), var(--color-neon-green));
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
   transition: width 0.5s ease;
 }
 
@@ -566,44 +591,124 @@
 }
 
 .sp-mode-card {
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
+  background: rgba(36, 36, 36, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
-  padding: 24px;
+  padding: 30px 24px;
   width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  transition: transform 0.2s, border-color 0.2s;
+  gap: 16px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Glow border effect on hover using pseudoelement */
+.sp-mode-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.4s;
 }
 
 .sp-mode-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--color-neon-green);
+  transform: translateY(-8px) scale(1.02);
+  border-color: transparent;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  background: rgba(46, 46, 46, 0.6);
+}
+
+.sp-mode-card[data-mode="classic"]:hover::after {
+  background: linear-gradient(135deg, var(--color-neon-green), transparent);
+}
+.sp-mode-card[data-mode="challenge"]:hover::after {
+  background: linear-gradient(135deg, var(--color-warning), transparent);
+}
+.sp-mode-card[data-mode="endless"]:hover::after {
+  background: linear-gradient(135deg, var(--color-purple), transparent);
+}
+
+.sp-mode-card h3 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  margin-bottom: 4px;
 }
 
 .sp-mode-card p {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: var(--color-text-muted);
   flex-grow: 1;
+  line-height: 1.6;
 }
 
 .sp-btn {
-  padding: 10px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 4px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-weight: 800;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sp-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: all 0.4s ease;
+}
+
+.sp-btn:hover::before {
+  left: 100%;
 }
 
 .sp-btn:hover {
-  opacity: 0.8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-.sp-btn-primary { background: var(--color-neon-green); color: #000; }
-.sp-btn-warning { background: var(--color-warning); color: #000; }
-.sp-btn-purple { background: var(--color-purple); color: #fff; }
+.sp-btn-primary { 
+  background: var(--color-neon-green); 
+  color: #000; 
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.15);
+}
+.sp-btn-primary:hover {
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+.sp-btn-warning { 
+  background: var(--color-warning); 
+  color: #000; 
+  box-shadow: 0 0 10px rgba(255, 184, 0, 0.15);
+}
+.sp-btn-warning:hover {
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.4);
+}
+
+.sp-btn-purple { 
+  background: var(--color-purple); 
+  color: #fff; 
+  box-shadow: 0 0 10px rgba(180, 79, 255, 0.15);
+}
+.sp-btn-purple:hover {
+  box-shadow: 0 0 20px rgba(180, 79, 255, 0.4);
+}
 
 /* HUD Extras */
 .sp-hud__left, .sp-hud__center, .sp-hud__right {

@@ -218,7 +218,7 @@ const SPOT_SCENES = [
     timeLimit: 35,
     variants: [
       {
-        image: 'images/scene_placeholder_kitchen1.png',
+        image: 'images/kitchen_fridge_1781581108519.jpg',
         hazardCount: 3,
         hotspots: [
           {
@@ -271,7 +271,7 @@ const SPOT_SCENES = [
     timeLimit: 30,
     variants: [
       {
-        image: 'images/scene_placeholder_restaurant1.png',
+        image: 'images/restaurant_buffet_1781581120110.jpg',
         hazardCount: 3,
         hotspots: [
           {
@@ -324,7 +324,7 @@ const SPOT_SCENES = [
     timeLimit: 40,
     variants: [
       {
-        image: 'images/scene_placeholder_supermarket1.png',
+        image: 'images/supermarket_chill_1781581131383.jpg',
         hazardCount: 3,
         hotspots: [
           {
@@ -377,7 +377,7 @@ const SPOT_SCENES = [
     timeLimit: 25,
     variants: [
       {
-        image: 'images/scene_placeholder_nightmarket2.png',
+        image: 'images/night_market_bbq_1781581157813.jpg',
         hazardCount: 3,
         hotspots: [
           {
@@ -430,7 +430,7 @@ const SPOT_SCENES = [
     timeLimit: 30,
     variants: [
       {
-        image: 'images/scene_placeholder_school3.png',
+        image: 'images/school_tuck_shop_1781581170297.jpg',
         hazardCount: 3,
         hotspots: [
           {
@@ -483,7 +483,7 @@ const SPOT_SCENES = [
     timeLimit: 30,
     variants: [
       {
-        image: 'images/scene_placeholder_kitchen2.png',
+        image: 'images/kitchen_sink_1781581181449.jpg',
         hazardCount: 3,
         hotspots: [
           {
@@ -536,7 +536,7 @@ const SPOT_SCENES = [
     timeLimit: 30,
     variants: [
       {
-        image: 'images/scene_placeholder_supermarket2.png',
+        image: 'images/supermarket_deli_1781581193827.jpg',
         hazardCount: 3,
         hotspots: [
           {

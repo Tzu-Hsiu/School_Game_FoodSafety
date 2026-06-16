@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>Hotspot Editor</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .controls { margin-bottom: 20px; }
+    .editor-area { position: relative; display: inline-block; border: 1px solid #ccc; cursor: crosshair; background: #eee; min-height: 200px; min-width: 300px; }
+    .editor-area img { max-width: 100%; display: block; }
+    .hotspot { 
+      position: absolute; 
+      border: 2px solid red; 
+      border-radius: 50%; 
+      transform: translate(-50%, -50%); 
+      background: rgba(255,0,0,0.3);
+      cursor: pointer;
+    }
+    .hotspot:hover { background: rgba(255,0,0,0.6); border-color: yellow; }
+    .hotspot-label {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 2px 4px;
+      font-size: 12px;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .panel { margin-top: 20px; }
+    #output { width: 100%; height: 150px; font-family: monospace; padding: 10px; box-sizing: border-box; }
+    .info { font-size: 14px; color: #555; margin-bottom: 10px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Spot The Hazard - Hotspot Editor</h2>
+    
+    <div class="info">
+      <strong>如何使用 (How to use):</strong>
+      <ol>
+        <li>從下拉選單選擇場景 (Select a scene from the dropdown).</li>
+        <li>圖片上的紅色圓圈是目前 <code>js/spotScenes.js</code> 裡設定的 hotspot 位置.</li>
+        <li><strong>點擊圖片任意位置</strong>，就可以在下方取得該位置的 <code>x, y</code> 座標 (百分比).</li>
+        <li>將取得的座標複製並貼到 <code>js/spotScenes.js</code> 裡面，然後重新整理這個網頁就能預覽更新後的位置.</li>
+      </ol>
+    </div>
+
+    <div class="controls">
+      <label>選擇場景 (Select Scene): </label>
+      <select id="sceneSelect"></select>
+    </div>
+    
+    <div class="editor-area" id="editorArea">
+      <img id="sceneImage" src="" alt="Scene Image" />
+      <div id="hotspotsContainer"></div>
+    </div>
+
+    <div class="panel">
+      <textarea id="output" readonly placeholder="點擊圖片來取得座標 (Click on the image to get coordinates)..."></textarea>
+    </div>
+  </div>
+
+  <!-- Load scenes data -->
+  <script src="js/spotScenes.js"></script>
+  <script>
+    const sceneSelect = document.getElementById('sceneSelect');
+    const sceneImage = document.getElementById('sceneImage');
+    const hotspotsContainer = document.getElementById('hotspotsContainer');
+    const editorArea = document.getElementById('editorArea');
+    const output = document.getElementById('output');
+
+    // Populate dropdown
+    window.SPOT_SCENES.forEach((scene, index) => {
+      const option = document.createElement('option');
+      option.value = index;
+      option.text = `[${scene.categoryId}] ${scene.id} - ${scene.title}`;
+      sceneSelect.appendChild(option);
+    });
+
+    sceneSelect.addEventListener('change', loadScene);
+
+    function loadScene() {
+      const sceneIndex = sceneSelect.value;
+      const scene = window.SPOT_SCENES[sceneIndex];
+      const variant = scene.variants[0];
+      
+      if(variant && variant.image) {
+        sceneImage.src = variant.image;
+        renderHotspots(variant.hotspots);
+      } else {
+        sceneImage.src = '';
+        hotspotsContainer.innerHTML = '';
+      }
+      output.value = '';
+    }
+
+    function renderHotspots(hotspots) {
+      hotspotsContainer.innerHTML = '';
+      hotspots.forEach(h => {
+        const el = document.createElement('div');
+        el.className = 'hotspot';
+        el.style.left = h.x + '%';
+        el.style.top = h.y + '%';
+        el.style.width = (h.r * 2) + '%';
+        el.style.height = (h.r * 2) + '%';
+        el.title = h.name + ' - ' + h.detail;
+        
+        const label = document.createElement('div');
+        label.className = 'hotspot-label';
+        label.innerText = `ID: ${h.id} (${h.name})`;
+        el.appendChild(label);
+
+        // Click existing hotspot to get its details
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          output.value = `Selected existing hotspot [ID: ${h.id} - ${h.name}]:\n{ id: ${h.id}, x: ${h.x}, y: ${h.y}, r: ${h.r} }\n\n` + output.value;
+        });
+
+        hotspotsContainer.appendChild(el);
+      });
+    }
+
+    editorArea.addEventListener('click', function(e) {
+      if(e.target.tagName !== 'IMG' && e.target !== editorArea) return;
+
+      const rect = sceneImage.getBoundingClientRect();
+      let x = ((e.clientX - rect.left) / rect.width) * 100;
+      let y = ((e.clientY - rect.top) / rect.height) * 100;
+      
+      // limit to 0-100
+      x = Math.max(0, Math.min(100, x));
+      y = Math.max(0, Math.min(100, y));
+
+      const newCoord = `x: ${Math.round(x)}, y: ${Math.round(y)}`;
+      output.value = `New clicked position:\n{ ${newCoord}, r: 12 }\n\n` + output.value;
+
+      // Add a temporary marker
+      const tempMarker = document.createElement('div');
+      tempMarker.style.position = 'absolute';
+      tempMarker.style.left = x + '%';
+      tempMarker.style.top = y + '%';
+      tempMarker.style.width = '10px';
+      tempMarker.style.height = '10px';
+      tempMarker.style.background = 'blue';
+      tempMarker.style.borderRadius = '50%';
+      tempMarker.style.transform = 'translate(-50%, -50%)';
+      tempMarker.style.pointerEvents = 'none';
+      hotspotsContainer.appendChild(tempMarker);
+    });
+
+    // Initialize
+    if (window.SPOT_SCENES && window.SPOT_SCENES.length > 0) {
+      loadScene();
+    }
+  </script>
+</body>
+</html>

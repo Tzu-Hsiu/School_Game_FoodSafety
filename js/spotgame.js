@@ -92,6 +92,17 @@ window.spotgame = {
       const rect = document.getElementById('spImgContainer').getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
+      
+      const pctX = ((x / rect.width) * 100).toFixed(1);
+      const pctY = ((y / rect.height) * 100).toFixed(1);
+      console.log(`[Dev Helper] Clicked coordinates: { x: ${pctX}, y: ${pctY} }`);
+      
+      // Also show it visually for the user
+      const panel = document.getElementById('spExplainPanel');
+      if (panel) {
+        panel.innerHTML = `<div class="sp-exp-miss">❌ 這裡沒有問題 (x: ${pctX}%, y: ${pctY}%)</div>`;
+      }
+      
       window.spotUIRenderer.showMissFeedback(x, y);
 
       if (state.mode === 'challenge' && state.timeRemaining <= 0) {
